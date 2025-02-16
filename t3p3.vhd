@@ -1,3 +1,4 @@
+--PROJEKOVATI MEMORIJU KOJA JE KAPACITETA 64*4 BAJTA(INTEGER) SA ASINHRONIM NACINOM RADA KONTROLISAN DOZVOLOM CITANJA I UPISA
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
@@ -45,12 +46,12 @@ entity memorijaTB is
         signal clk,clr,re,we:std_logic;
         uut: entity work.memorija(citajPisi)
         port map(
-            load<=load,
-            address<=address,
-            clk<=clk,
-            clr<=clr,
-            re<=re,
-            we<=we
+            load=>load,
+            address=>address,
+            clk=>clk,
+            clr=>clr,
+            re=>re,
+            we=>we
 
         );
         stimuli:process

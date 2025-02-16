@@ -1,4 +1,5 @@
 -- Code your design here
+--PROJKETOVATI BCD BROJAC SA ASINHRONIM RESETOM KOJI BROJI NA SVAKU DRUGU IVICU TAKTA
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;

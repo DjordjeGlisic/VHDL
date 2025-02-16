@@ -1,3 +1,11 @@
+-- PROJEKTOVATI BCD BRPOJAC KOJI BROJI UNAZAD NA OSNOVU PODATAKTA KOJI RPIMA SA ULAZA DIN 
+-- PODATAK SA DIN KORISTI DA POCEV OD NJEGA GENERISE SVE PODATKE DO NULE NA IZLAZ DOUT VODECI RACUNA DA LI SE RADI O POZITIVNOM ILI NEGATIVNOM BROJU
+--ZA NEGATIVAN BROJ IMPLEMENTIRANTI BCD(4 BTINI) BROJAC
+--a) u potpunom komplementu
+--b) u nepotpunom komplementu
+--v) napisti arhitekturu koja vrsi dekodiranje bcd broja u potunom  komplementu
+--------------------------------------------------------------------------------------------------------
+--koncepti prebacivanje od binarnog u int podatak radi alu operacija i koriscenje for petlje
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.STD_LOGIC_ARITH.ALL;
@@ -19,11 +27,15 @@ entity pkBcd is
         begin
             count:process
             variable mem : unsigned(n-1 downto 0);
+            variable pom: unsigned(n-1 downto 0)
             begin
                 wait until clk'event and clk='1';
                 if clk'event and clk='1' then
                     if we='1' then
                         mem:=din;
+                        if(to_integer(mem)>16) then
+                            mem:=to_unsigned(9,n-1);
+                        end if;
                         if neg='1' then
                             for i in 0 to n-1 loop
                                 if mem(i)='1' then
@@ -32,10 +44,12 @@ entity pkBcd is
                                     mem(i):='1';
                                     end if;
                                 end loop;
+                                mem:=to_unsigned(to_integer(pom)+1,n-1);
                             end if;
                          elsif ce='1' then
-                            for i in  to_integer(mem) to 0 loop
-                                mem:=to_unsigned(to_integer(mem)-1,n-1);
+                            pom:=mem
+                            for i in  to_integer(mem) downto 0 loop
+                                pom:=to_unsigned(to_integer(pom)-1,n-1);
                                 dout<=mem;
                                 wait for 1 ns;       
                                 end loop;
@@ -62,16 +76,20 @@ architecture kodirajUPk of nkBcd is
             wait until clk'event and clk='1';
             if clk'event and clk='1' then
                 if we='1' then
-                    if neg='1' then
                     pom:=din;
-                    for i in n-1 to 0 loop
+                    mem:=to_integer(pom);
+                    if(mem>16) then
+                        mem:=9;
+                    end if;
+                    if neg='1' then
+                    for i in n-1 downto  0 loop
                         if(pom(i)='1') then
                             pom(i):='0';
                             else
                             pom(i):='1';
                             end if;
                         end loop;
-                        mem:=to_integer(pom)+1;
+               
                        
 
 
@@ -80,9 +98,10 @@ architecture kodirajUPk of nkBcd is
                     wait for 2 ns;
                     end if;
                     elsif ce='1' then
+                        mem=to_integer(pom);
                         wait for 2 ns;
                         dout<=to_unsigned(mem,n-1);
-                        for i in mem to 0 loop
+                        for i in mem downto 0 loop
                             mem:=mem-1;
                             dout<=to_unsigned(mem,n-1);
                             wait for 2ns;
@@ -91,7 +110,7 @@ architecture kodirajUPk of nkBcd is
                     end if;
             end process rad;
         end architecture kodirajUPk;
-        architecture dekodiraj of nkBcd is
+        architecture dekodiraj of pkBcd is
             begin
                 rad:process
                 variable pom:unsigned(n-1 downto 0);
@@ -100,8 +119,8 @@ architecture kodirajUPk of nkBcd is
                     wait until clk'event and clk='1';
                     if clk'event and clk='1' then
                         if we='1' then
-                            if neg='1' then
                             pom:=din;
+                            if neg='1' then
                             mem:=to_integer(pom)-1;
                             pom:=to_unsigned(mem,n-1);
                             for i in n-1 to 0 loop
@@ -111,7 +130,7 @@ architecture kodirajUPk of nkBcd is
                                     pom(i):='1';
                                     end if;
                                 end loop;
-                                mem:=to_integer(pom);
+                                dout<=pom
                                
         
         

@@ -1,3 +1,5 @@
+
+--PROJEKTOVATI N-2 NA N DEKODER KOJI RADI SA AKTIVNOM NISKOM IVICOM SINHRONIM PUTEM
 library ieee; 
 
   use ieee.std_logic_1164.all; 

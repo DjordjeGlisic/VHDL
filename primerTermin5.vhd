@@ -1,3 +1,4 @@
+--PROJEKTOVATI KOMPONENTU KOJA SABIRA DVA SUKCESIVNA PODATKA IZ REGISTRA
 library ieee;
 use ieee.std_logic_1164_all;
 use ieee.numeric_std;
@@ -94,17 +95,18 @@ entity buff is
 entity memorija is
         generic(n:integer:=7);
         generic(m:integer:=31);
+        generic(k:integer:=4)
         port(
             din:in std_logic_vector(n downto 0);
             dout:out std_logic_vector(n downto 0);
-            addr:in std_logic_vector(n downto 0);
+            addr:in std_logic_vector(k downto 0);
             we:in bit;
             clk:in bit;
         );
         end entity memorija;
         architecture pamti of memorija is
             type polje is array (m downto 0) of std_logic_vector(n downto 0);
-            signal mem:std_logic
+            signal mem:polje
             variable index:integer range 0 to m;
             begin
                 process(clk,we)
@@ -123,7 +125,7 @@ entity memorija is
 
 entity brojac is
     generic(m:integer:=31);
-    generic(n:integer:=7);
+    generic(n:integer:=4);
     port(
         clk,reset:in bit;
         ulaz:in integer 0 to m;
@@ -158,6 +160,7 @@ entity kontrolna is
        
         clk:in bit;
         reset:in bit;
+        --zasto postoji adresa verovatno zasto da se ne krece uvek od nula brojanje tj odredjivanje adrese od koje krece komunikacija vec da moze rucno da se postavi
         addr:in integer 0 to m;
         upis1:out std_logic;
         upis2:out std_logic;
@@ -228,6 +231,7 @@ entity kontrolna is
 entity komponenta is
     generic(n:integer:=7);
     generic(m:integer:=31);
+    generic (k:integer:=4);
     port(
         din:in std_logic_vector(n downto 0);
         we:in bit;
@@ -238,6 +242,7 @@ entity komponenta is
         );
         end entity komponenta;
         architecture komp of komponenta is
+            -- kako se ovaj interni signal generise ako nije port 
         signal addr:in integer range 0 to m;
         signal upis1,upis2:std_logic;
         signal adresaMem:std_logic_vector(n downto 0);

@@ -8,7 +8,7 @@ port(
 );
 end entity sabirac1b;
 architecture saberi1b of sabirac1b is
-    process(op1,op2)
+  
     begin
         with bit_vector(cin,op1,op2) select
             (cout,sum) <=  bit_vector("00") when "000",
@@ -20,7 +20,8 @@ architecture saberi1b of sabirac1b is
                             bit_vector("10") when "110",
                             bit_vector("11") when "111";
 
-        end process;
+      
+                        
     end architecture saberi1b;
     entity sabirac3b is
         port(

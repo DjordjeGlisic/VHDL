@@ -1,7 +1,10 @@
+-- /*implementirati brojac koji broji unazad tako sto mu se prosledi ntobitni podatak sa kog krece brojanje do nule*/
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.STD_LOGIC_ARITH.ALL;
 USE IEEE.STD_LOGIC_UNSIGNED.ALL;
+-------------------------------------------------
+--koncepti generic konstanta, prebacibvanje bin-int radi alu operacija procesi,promenljive
 entity brojac is
     generic(
         n:integer:=8;
@@ -26,7 +29,7 @@ entity brojac is
                         loop
                             exit when mem=0;
                             mem:=mem-1;
-                            end loop;
+                        end loop;
                         end if;
                         dout<=mem;
                 end if;

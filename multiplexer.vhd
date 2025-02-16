@@ -1,3 +1,6 @@
+--PROJEKTOVAI MULTIPLEXER KOJI IMA 4 8BIT ULAZA GDE JEDAN OD ULAZA SE VODI NA IZLAZ ZAVISNO OD SELEKCIONIH ULAZA I TO:
+--a) AKO SU OBA NULE PRVI,AKO SU OBA JEDNICE DRUGI, AKO SU UBA 4 TRECI INACE DRUDI
+--b) AKO SEL>SEL2=>A,SEL1=SEL2=>B SEL<SEL2=>C INACE D
 library ieee;
 use ieee.std_logic_1164.all;
 entity mux is
@@ -11,8 +14,8 @@ entity mux is
         begin
             process(sel1,sel2)
             begin
-                with (sel1,sel2)
-                select f <= a when ("000000"),
+                with (sel1,sel2) select f <=
+                            a when ("000000"),
                             b when ("001001"),
                             c when ("100100") ,
                             d when (others=>'X')

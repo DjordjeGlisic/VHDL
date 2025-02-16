@@ -1,6 +1,7 @@
+--IMPLEMENTIRATI RAD D FLIP FLOPA SA ASINHRONIM RESETOM
 library IEEE;
 use IEEE.std_logic_1164.all;
-
+---koncepti procesi
 entity DFF is
     port(
     D: in bit;
